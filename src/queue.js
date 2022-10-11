@@ -1,6 +1,6 @@
 const { NotImplementedError } = require('../extensions/index.js');
 
-// const { ListNode } = require('../extensions/list-node.js');
+const { ListNode } = require('../extensions/list-node.js');
 
 /**
  * Implement the Queue with a given interface via linked list (use ListNode extension above).
@@ -14,22 +14,41 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 class Queue {
-
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    return this.head;
+  }
+
+  enqueue(value) {
+    let node = new ListNode(value); // создаем узел в связном списке
+    if (this.head) { // если начальное значение есть (голова), то
+      this.tail.next = node; // назначением ссылку на новый узел последнему узлу
+      this.tail = node; // переданный узел становится последним узлом (хвост)
+    } else { // если начального значения (головы) нет, то
+      this.head = node; // переданный узел становится начальным значением (головой)
+      this.tail = node; // и также он становится последним узлом (хвостом)
+    }
+    this.length++; // увеличиваем длину списка на один
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let current = this.head; // присваиваем переменной начальное значение узла
+    this.head = this.head.next; // удаляем голову и на его место ставим следующий узел
+    this.length--; // уменьшаем длину списка на один
+    return current.value; // возвращаем удаленный узел
   }
 }
+
+const queue = new Queue();
+queue.enqueue(5);
+queue.enqueue(6);
+queue.enqueue(7);
+queue.dequeue();
 
 module.exports = {
   Queue
